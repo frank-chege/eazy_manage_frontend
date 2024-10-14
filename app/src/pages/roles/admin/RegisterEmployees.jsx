@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { configureRequest } from "../common/utils";
-import { useGlobalContext } from "./contextProvider";
+import { configureRequest } from "../../common/utils";
+import { useGlobalContext } from "../../auth/contextProvider";
 
-export default function Register() {
+export default function RegisterEmployee() {
+  const [role, setRole] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [confirmPwd, setConfirmPwd] = useState("");
+  const [status, setStatus] = useState("");
+  const [dep, setDep] = useState("");
+  const [jobTitle, setjobTitle] = useState("");
+  const [joined, setJoined] = useState("");
   const [waitMessage, setWaitMessage] = useState(false);
-  const [regRole, setRegRole] = useState("");
 
   const navigate = useNavigate();
   const request = configureRequest();
@@ -63,24 +65,18 @@ export default function Register() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>Please fill the form to register</h3>
-      {/**add role field for admin */}
-      {loginRole === "admin" ? (
-        <div className="mb-3">
-          <label className="form-label">Select role: </label>
-          <select
-            className="form-select"
-            onChange={(e) => setRegRole(e.target.value)}
-            required
-          >
-            <option value="admin">Admin</option>
-            <option value="author">Author</option>
-            <option value="viewer">Viewer</option>
-          </select>
-        </div>
-      ) : (
-        ""
-      )}
+      <h3>Please fill the form to add new employee</h3>
+      <div className="mb-3">
+        <label className="form-label">Select role: </label>
+        <select
+          className="form-select"
+          onChange={(e) => setRole(e.target.value)}
+          required
+        >
+          <option value="admin">Admin</option>
+          <option value="employee">Employee</option>
+        </select>
+      </div>
 
       <div className="mb-3">
         <label className="form-label">First name</label>
@@ -90,7 +86,7 @@ export default function Register() {
           pattern="[A-Za-z]+"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
-          placeholder="Enter your first name"
+          placeholder="Enter first name"
           required
         />
       </div>
@@ -103,7 +99,7 @@ export default function Register() {
           title="Name can only contain letters."
           value={lastName}
           onChange={(e) => setLastName(e.target.value)}
-          placeholder="Enter your last name"
+          placeholder="Enter last name"
           required
         />
       </div>
@@ -114,27 +110,58 @@ export default function Register() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email address"
+          placeholder="Enter email address"
           required
         />
       </div>
-      <div>
-        <label className="form-label">Password</label>
-        <input
-          className="form-control"
-          type="password"
-          value={pwd}
-          onChange={(e) => setPwd(e.target.value)}
+
+      <div className="mb-3">
+        <label className="form-label">Select status: </label>
+        <select
+          className="form-select"
+          onChange={(e) => setStatus(e.target.value)}
           required
-        />
+        >
+          <option value="active">Active</option>
+          <option value="leave">On leave</option>
+          <option value="inactive">Inactive</option>
+        </select>
       </div>
-      <div>
-        <label className="form-label">Confirm password</label>
+
+      <div className="mb-3">
+        <label className="form-label">Select department: </label>
+        <select
+          className="form-select"
+          onChange={(e) => setDep(e.target.value)}
+          required
+        >
+          <option value="IT">IT</option>
+          <option value="HR">HR</option>
+          <option value="ACCOUNTS">Accounts</option>
+        </select>
+      </div>
+
+      <div className="mb-3">
+        <label className="form-label">Select job title: </label>
+        <select
+          className="form-select"
+          onChange={(e) => setjobTitle(e.target.value)}
+          required
+        >
+          <option value="accountant">Accountant</option>
+          <option value="hr">Hr</option>
+          <option value="developer">Developer</option>
+        </select>
+      </div>
+
+      <div className="mb-3">
+        <label className="form-label">Joined</label>
         <input
           className="form-control"
-          type="password"
-          value={confirmPwd}
-          onChange={(e) => setConfirmPwd(e.target.value)}
+          type="date"
+          value={joined}
+          onChange={(e) => setJoined(e.target.value)}
+          placeholder="select date"
           required
         />
       </div>

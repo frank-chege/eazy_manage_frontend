@@ -1,11 +1,11 @@
 import Logout from "../../auth/Logout";
 import { Routes, Route } from "react-router-dom";
 import useCheckAuthStatus from "../../auth/authCheck";
-import AuthorNavbar from "./AuthorNavBar";
-import AuthorHome from "./AuthorHome";
 import Forbidden from "../../errors/Forbidden";
+import EmployeeNavbar from "./EmployeeNavBar";
+import EmployeeHome from "./EmployeeHome";
 
-export default function AuthorLayout({ children }) {
+export default function EmployeeLayout({ children }) {
   const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus("author");
 
   if (checkingAuthStatus) {
@@ -17,9 +17,9 @@ export default function AuthorLayout({ children }) {
   return (
     <>
       {children}
-      <AuthorNavbar />
+      <EmployeeNavbar />
       <Routes>
-        <Route path="/home" element={<AuthorHome />} />
+        <Route path="/home" element={<EmployeeHome />} />
         <Route path="/logout" element={<Logout role="author" />} />
       </Routes>
     </>
