@@ -8,14 +8,14 @@ import { configureRequest } from "../common/utils";
 function Login() {
   //define states to manage input values
   const [email, setEmail] = useState("");
-  const [pwd, setPwd] = useState("");
+  const [password, setPassword] = useState("");
   const [waitMessage, setWaitMessage] = useState(false);
 
   const { setLoginRole } = useGlobalContext();
   const navigate = useNavigate();
   const request = configureRequest();
   //create payload
-  const payload = { email, pwd };
+  const payload = { email, password };
   //handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -68,8 +68,8 @@ function Login() {
             className="form-control"
             type="password"
             autoComplete="current-password"
-            value={pwd}
-            onChange={(e) => setPwd(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>

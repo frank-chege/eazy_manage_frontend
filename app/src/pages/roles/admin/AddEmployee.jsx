@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { configureRequest } from "../../common/utils";
 import { useGlobalContext } from "../../auth/contextProvider";
 
-export default function RegisterEmployee() {
+export default function AddEmployee() {
   const [role, setRole] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
