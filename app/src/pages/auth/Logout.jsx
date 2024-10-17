@@ -40,6 +40,7 @@ export default function Logout({ role }) {
           render: "Logout failed!",
           type: "error",
           isLoading: false,
+          autoClose: 3000,
         });
       }
       //successful logout
@@ -47,6 +48,7 @@ export default function Logout({ role }) {
         render: "Logged out successfully",
         type: "success",
         isLoading: false,
+        autoClose: 3000,
       });
       navigate("/");
     };
@@ -59,6 +61,7 @@ export default function Logout({ role }) {
         render: "Logout failed!",
         type: "error",
         isLoading: false,
+        autoClose: 3000,
       });
     }
   }, [role, navigate, checkingAuthStatus, isAuthenticated]);

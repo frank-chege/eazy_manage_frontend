@@ -26,23 +26,20 @@ export default function AddEmployee() {
       toast.error("Name is too short!");
       return;
     }
-
-    if (pwd.length < 6) {
-      toast.error("Password is too short! should be atleast 6 characters");
-      return;
-    }
-
-    if (pwd !== confirmPwd) {
-      toast.error("Passwords do not match!");
-      return;
-    }
-    const role = loginRole !== "admin" ? "viewer" : regRole;
-    const payload = { firstName, lastName, email, pwd, role };
+    const payload = {
+      role,
+      firstName,
+      lastName,
+      email,
+      status,
+      dep,
+      jobTitle,
+      joined,
+    };
 
     request
       .post("/auth/register", payload)
       .then((res) => {
-        navigate("/login");
         toast.success(res.data.message);
       })
       .catch((error) => {
@@ -53,9 +50,6 @@ export default function AddEmployee() {
           error.response.data.error
         ) {
           toast.error(error.response.data.error);
-          if (error.response.status === 409) {
-            navigate("/login");
-          }
         } else {
           toast.error("An error occured. PLease try again");
         }
@@ -73,6 +67,7 @@ export default function AddEmployee() {
           onChange={(e) => setRole(e.target.value)}
           required
         >
+          <option disabled>--select role--</option>
           <option value="admin">Admin</option>
           <option value="employee">Employee</option>
         </select>
@@ -122,6 +117,7 @@ export default function AddEmployee() {
           onChange={(e) => setStatus(e.target.value)}
           required
         >
+          <option disabled>--select status--</option>
           <option value="active">Active</option>
           <option value="leave">On leave</option>
           <option value="inactive">Inactive</option>
@@ -135,6 +131,7 @@ export default function AddEmployee() {
           onChange={(e) => setDep(e.target.value)}
           required
         >
+          <option disabled>--select department--</option>
           <option value="IT">IT</option>
           <option value="HR">HR</option>
           <option value="ACCOUNTS">Accounts</option>
@@ -148,6 +145,7 @@ export default function AddEmployee() {
           onChange={(e) => setjobTitle(e.target.value)}
           required
         >
+          <option disabled>--select job title--</option>
           <option value="accountant">Accountant</option>
           <option value="hr">Hr</option>
           <option value="developer">Developer</option>
@@ -166,14 +164,8 @@ export default function AddEmployee() {
         />
       </div>
 
-      <p>
-        Already have an account?
-        <Link className="navbar-brand" to="/login">
-          Login here
-        </Link>
-      </p>
       <button type="submit" className="btn btn-primary ">
-        {waitMessage ? "Please wait..." : "Register"}
+        {waitMessage ? "Please wait..." : "Add Employee"}
       </button>
     </form>
   );

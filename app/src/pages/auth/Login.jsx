@@ -26,7 +26,7 @@ function Login() {
       .then((res) => {
         const role = res.data.role;
         setLoginRole(role);
-        navigate(`/${role}/home`);
+        navigate(`/${role}/tasks`);
         toast.success(res.data.message);
       })
       .catch((error) => {

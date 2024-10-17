@@ -22,9 +22,9 @@ export default function AdminLayout({ children }) {
       {children}
       <AdminNavbar />
       <Routes>
-        <Route path="/tasks" element={<AdminTasks />} />
-        <Route path="/employees" element={<Employees />} />
-        <Route path="/messages" element={<AdminMessages />} />
+        <Route path="/tasks/*" element={<AdminTasks />} />
+        <Route path="/employees/*" element={<Employees />} />
+        <Route path="/messages/*" element={<AdminMessages />} />
         <Route path="/logout" element={<Logout role="admin" />} />
       </Routes>
     </>
