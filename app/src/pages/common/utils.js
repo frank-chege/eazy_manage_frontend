@@ -13,13 +13,28 @@ export const getCookieValue = (name) => {
   return null;
 };
 
-//configures request
+//configures unauthenticated request
 export function configureRequest() {
   axios.defaults.withCredentials = true;
   const axiosRequest = axios.create({
     baseURL: "http://localhost:5000/api/v1",
     headers: {
       "Content-Type": "application/json",
+    },
+    timeout: 5000,
+  });
+  return axiosRequest;
+}
+
+//configures auth request
+export function configureAuthenticatedRequest() {
+  const csrf_access_token = getCookieValue("csrf_access_token");
+  axios.defaults.withCredentials = true;
+  const axiosRequest = axios.create({
+    baseURL: "http://localhost:5000/api/v1",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-TOKEN": csrf_access_token,
     },
     timeout: 5000,
   });

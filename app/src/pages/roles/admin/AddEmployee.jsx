@@ -51,7 +51,7 @@ export default function AddEmployee() {
         ) {
           toast.error(error.response.data.error);
         } else {
-          toast.error("An error occured. PLease try again");
+          toast.error("An error occured. Please try again");
         }
         setWaitMessage(false);
       });
