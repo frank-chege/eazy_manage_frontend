@@ -10,9 +10,6 @@ import AdminMessages from "./AdminMessages";
 export default function AdminLayout({ children }) {
   const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus("admin");
 
-  if (checkingAuthStatus) {
-    return <div>Checking your authentication status. Please wait...</div>;
-  }
   if (!checkingAuthStatus && !isAuthenticated) {
     return <Forbidden />;
   }

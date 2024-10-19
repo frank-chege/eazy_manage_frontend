@@ -20,6 +20,14 @@ export default function Forbidden({ previousPage }) {
         <button onClick={goToPreviousPage} className="btn btn-primary">
           Go back to the previous page
         </button>
+        <button
+          onClick={() => {
+            navigate("/login");
+          }}
+          className="btn btn-primary"
+        >
+          Or log in
+        </button>
       </div>
     </div>
   );

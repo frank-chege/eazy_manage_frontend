@@ -3,14 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import useCheckAuthStatus from "../../auth/authCheck";
 import Forbidden from "../../errors/Forbidden";
 import EmployeeNavbar from "./EmployeeNavBar";
-import EmployeeHome from "./EmployeeHome";
+import EmployeeTasks from "./EmployeeTasks";
+import EmployeeMessages from "./EmployeeMessages";
 
 export default function EmployeeLayout({ children }) {
   const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus("author");
 
-  if (checkingAuthStatus) {
-    return <div>Checking your authentication status. Please wait...</div>;
-  }
   if (!checkingAuthStatus && !isAuthenticated) {
     return <Forbidden />;
   }
@@ -19,8 +17,9 @@ export default function EmployeeLayout({ children }) {
       {children}
       <EmployeeNavbar />
       <Routes>
-        <Route path="/home" element={<EmployeeHome />} />
-        <Route path="/logout" element={<Logout role="author" />} />
+        <Route path="/tasks" element={<EmployeeTasks />} />
+        <Route path="/messages" element={<EmployeeMessages />} />
+        <Route path="/logout" element={<Logout role="employee" />} />
       </Routes>
     </>
   );
