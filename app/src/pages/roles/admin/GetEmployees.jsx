@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { configureAuthenticatedRequest } from "../../common/utils";
 import { toast } from "react-toastify";
 
-export default function ViewEmployees() {
+export default function GetEmployees() {
   const request = configureAuthenticatedRequest();
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(20);
@@ -10,7 +10,7 @@ export default function ViewEmployees() {
 
   useEffect(() => {
     request
-      .get(`/employees/get?offset=${offset}&limit=${limit}`)
+      .get(`/admin/get_employees?offset=${offset}&limit=${limit}`)
       .then((res) => {
         if (res.data.employees) {
           setEmployeesData(res.data.employees);

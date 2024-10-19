@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
 import AddEmployee from "./AddEmployee";
-import ViewEmployees from "./ViewEmployees";
 import { Routes, Route, Link, useNavigate, Navigate } from "react-router-dom";
+import GetEmployees from "./GetEmployees";
 
 export default function Employees() {
   return (
@@ -12,7 +11,7 @@ export default function Employees() {
       </nav>
       <Routes>
         <Route path="/" element={<Navigate to="overview" />} />
-        <Route path="/overview" element={<ViewEmployees />} />
+        <Route path="/overview" element={<GetEmployees />} />
         <Route path="/add_new" element={<AddEmployee />} />
       </Routes>
     </>
