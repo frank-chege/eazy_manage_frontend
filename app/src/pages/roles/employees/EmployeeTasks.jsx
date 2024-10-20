@@ -9,13 +9,13 @@ export default function EmployeeTasks() {
       <nav>
         <Link to="/employee/tasks/pending">Pending</Link>
         <Link to="/employee/tasks/completed">Completed</Link>
-        <Link to="/employee/tasks/add_new">Add new</Link>
+        <Link to="/employee/tasks/new_task">Add new</Link>
       </nav>
       <Routes>
         <Route path="/" element={<Navigate to="pending" />} />
         <Route path="/pending" element={<ViewTasks status="pending" />} />
         <Route path="/completed" element={<ViewTasks status="completed" />} />
-        <Route path="/add_new" element={<NewTask />} />
+        <Route path="/new_task" element={<NewTask />} />
       </Routes>
     </>
   );

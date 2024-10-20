@@ -9,17 +9,13 @@ export default function ViewTasks({ status = "pending" }) {
   const [offset, setOffset] = useState(0);
   const request = configureAuthenticatedRequest();
 
-  useEffect(() => {
+  //change task status
+  const changeStatus = (newStatus, taskId) => {
+    const payload = { newStatus, taskId };
     request
-      .get(
-        `/employees/get_tasks?offset=${offset}&limit=${limit}&status=${status}`
-      )
+      .put("/employees/tasks/change_status", payload)
       .then((res) => {
-        if (res.data.tasks) {
-          setTasks(res.data.tasks);
-        } else {
-          toast.error(`An error occured fetching ${status} tasks`);
-        }
+        toast.success(res.data.message);
       })
       .catch((error) => {
         if (
@@ -33,7 +29,38 @@ export default function ViewTasks({ status = "pending" }) {
           toast.error("An error occured. Please try again");
         }
       });
-  }, [offset, limit]);
+  };
+
+  //get tasks
+  useEffect(() => {
+    request
+      .get(
+        `/employees/tasks/get_tasks?offset=${offset}&limit=${limit}&status=${status}`
+      )
+      .then((res) => {
+        if (res.data.tasks) {
+          setTasks(res.data.tasks);
+        } else {
+          toast.error(`An error occured fetching ${status} tasks`);
+        }
+      })
+      .catch((error) => {
+        if (error.status == 404) {
+          //remove pending tasks rendered previously
+          setTasks(null);
+        }
+        if (
+          error &&
+          error.response &&
+          error.response.data &&
+          error.response.data.error
+        ) {
+          toast.error(error.response.data.error);
+        } else {
+          toast.error("An error occured. Please try again");
+        }
+      });
+  }, [offset, limit, status, changeStatus]);
 
   return (
     <>
@@ -48,6 +75,7 @@ export default function ViewTasks({ status = "pending" }) {
                 <th>Priority</th>
                 <th>Started</th>
                 <th>Planned end date</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -59,6 +87,24 @@ export default function ViewTasks({ status = "pending" }) {
                   <td>{task.priority}</td>
                   <td>{task.started}</td>
                   <td>{task.to_end}</td>
+                  {/* render different actions based on either pending or completed tasks */}
+                  {status == "pending" ? (
+                    <td>
+                      <button
+                        onClick={() => changeStatus("completed", task.task_id)}
+                      >
+                        Mark done
+                      </button>
+                    </td>
+                  ) : (
+                    <td>
+                      <button
+                        onClick={() => changeStatus("pending", task.task_id)}
+                      >
+                        Mark incomplete
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

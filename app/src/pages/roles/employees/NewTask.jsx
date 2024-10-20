@@ -32,10 +32,10 @@ export default function NewTask() {
     };
 
     request
-      .post("/employees/add_new_task", payload)
+      .post("/employees/tasks/new_task", payload)
       .then((res) => {
         toast.success(res.data.message);
-        navigate("/pending");
+        navigate("/employee/tasks/pending");
       })
       .catch((error) => {
         if (
