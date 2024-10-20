@@ -1,3 +1,8 @@
+import { Link } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import NewTask from "./NewTask";
+import ViewTasks from "./ViewTasks";
+
 export default function EmployeeTasks() {
   return (
     <>
@@ -8,9 +13,9 @@ export default function EmployeeTasks() {
       </nav>
       <Routes>
         <Route path="/" element={<Navigate to="pending" />} />
-        <Route path="/pending" element={<ViewEmployees />} />
-        <Route path="/completed" element={<AddEmployee />} />
-        <Route path="/add_new" element={<AddEmployee />} />
+        <Route path="/pending" element={<ViewTasks status="pending" />} />
+        <Route path="/completed" element={<ViewTasks status="completed" />} />
+        <Route path="/add_new" element={<NewTask />} />
       </Routes>
     </>
   );

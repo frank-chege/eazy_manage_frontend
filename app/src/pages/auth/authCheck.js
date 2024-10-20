@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { configureRequest, getCookieValue } from "../common/utils";
 import { useNavigate } from "react-router-dom";
 
-const useCheckAuthStatus = (role) => {
+const useCheckAuthStatus = (role = "") => {
   const request = configureRequest();
   const csrf_access_token = getCookieValue("csrf_access_token");
   const payload = { role };
@@ -21,8 +21,8 @@ const useCheckAuthStatus = (role) => {
         });
         return response.data && response.data.status === "true";
       } catch (error) {
-        console.log("Authentication failed");
-        console.log(error);
+        // console.log("Authentication failed");
+        // console.log(error);
         return false;
       }
     };

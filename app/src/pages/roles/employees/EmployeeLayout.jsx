@@ -17,7 +17,7 @@ export default function EmployeeLayout({ children }) {
       {children}
       <EmployeeNavbar />
       <Routes>
-        <Route path="/tasks" element={<EmployeeTasks />} />
+        <Route path="/tasks/*" element={<EmployeeTasks />} />
         <Route path="/messages" element={<EmployeeMessages />} />
         <Route path="/logout" element={<Logout role="employee" />} />
       </Routes>
