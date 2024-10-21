@@ -4,8 +4,8 @@ import useCheckAuthStatus from "../../auth/authCheck";
 import AdminNavbar from "./AdminNavBar";
 import Forbidden from "../../errors/Forbidden";
 import Employees from "./Employees";
-import AdminTasks from "./AdminTasks";
 import AdminMessages from "./AdminMessages";
+import TasksLayout from "../../tasks/TasksLayout";
 
 export default function AdminLayout({ children }) {
   const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus("admin");
@@ -19,7 +19,7 @@ export default function AdminLayout({ children }) {
       {children}
       <AdminNavbar />
       <Routes>
-        <Route path="/tasks/*" element={<AdminTasks />} />
+        <Route path="/tasks/*" element={<TasksLayout role="admin" />} />
         <Route path="/employees/*" element={<Employees />} />
         <Route path="/messages/*" element={<AdminMessages />} />
         <Route path="/logout" element={<Logout role="admin" />} />

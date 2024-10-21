@@ -40,7 +40,9 @@ export default function GetEmployees() {
             <thead>
               <tr>
                 <th></th>
-                <th>Name</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
                 <th>Department</th>
                 <th>Job Title</th>
                 <th>Status</th>
@@ -51,6 +53,8 @@ export default function GetEmployees() {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{employee.first_name}</td>
+                  <td>{employee.last_name}</td>
+                  <td>{employee.email}</td>
                   <td>{employee.department}</td>
                   <td>{employee.job_title}</td>
                   <td>{employee.status}</td>

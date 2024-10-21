@@ -1,21 +1,24 @@
 //completed and pending tasks component
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
-import { configureAuthenticatedRequest } from "../../common/utils";
+import { useCallback, useEffect, useState } from "react";
+import { configureAuthenticatedRequest } from "../common/utils";
 
-export default function ViewTasks({ status = "pending" }) {
+export default function ViewTasks({ status = "pending", role }) {
   const [tasks, setTasks] = useState(null);
   const [limit, setLimit] = useState(20);
   const [offset, setOffset] = useState(0);
   const request = configureAuthenticatedRequest();
+  const [refresh, toggleRefresh] = useState(false);
 
   //change task status
-  const changeStatus = (newStatus, taskId) => {
+  const changeStatus = useCallback((newStatus, taskId) => {
     const payload = { newStatus, taskId };
     request
-      .put("/employees/tasks/change_status", payload)
+      .put("/tasks/change_status", payload)
       .then((res) => {
         toast.success(res.data.message);
+        //trigger tasks refresh
+        toggleRefresh((prevRefrehState) => !prevRefrehState);
       })
       .catch((error) => {
         if (
@@ -29,14 +32,12 @@ export default function ViewTasks({ status = "pending" }) {
           toast.error("An error occured. Please try again");
         }
       });
-  };
+  }, []);
 
   //get tasks
   useEffect(() => {
     request
-      .get(
-        `/employees/tasks/get_tasks?offset=${offset}&limit=${limit}&status=${status}`
-      )
+      .get(`/tasks/get_tasks?offset=${offset}&limit=${limit}&status=${status}`)
       .then((res) => {
         if (res.data.tasks) {
           setTasks(res.data.tasks);
@@ -48,8 +49,7 @@ export default function ViewTasks({ status = "pending" }) {
         if (error.status == 404) {
           //remove pending tasks rendered previously
           setTasks(null);
-        }
-        if (
+        } else if (
           error &&
           error.response &&
           error.response.data &&
@@ -60,7 +60,7 @@ export default function ViewTasks({ status = "pending" }) {
           toast.error("An error occured. Please try again");
         }
       });
-  }, [offset, limit, status, changeStatus]);
+  }, [offset, limit, status, refresh]);
 
   return (
     <>
@@ -75,7 +75,10 @@ export default function ViewTasks({ status = "pending" }) {
                 <th>Priority</th>
                 <th>Started</th>
                 <th>Planned end date</th>
-                <th>Action</th>
+                {/* no action column for admin pending tasks */}
+                {role === "admin" && status === "pending" ? null : (
+                  <th>Action</th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -88,14 +91,19 @@ export default function ViewTasks({ status = "pending" }) {
                   <td>{task.started}</td>
                   <td>{task.to_end}</td>
                   {/* render different actions based on either pending or completed tasks */}
-                  {status == "pending" ? (
-                    <td>
-                      <button
-                        onClick={() => changeStatus("completed", task.task_id)}
-                      >
-                        Mark done
-                      </button>
-                    </td>
+                  {status === "pending" ? (
+                    // hide action column for admin in pending tasks
+                    role === "admin" ? null : (
+                      <td>
+                        <button
+                          onClick={() =>
+                            changeStatus("completed", task.task_id)
+                          }
+                        >
+                          Mark done
+                        </button>
+                      </td>
+                    )
                   ) : (
                     <td>
                       <button

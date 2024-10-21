@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { configureAuthenticatedRequest } from "../../common/utils";
-import { useGlobalContext } from "../../auth/contextProvider";
+import { configureAuthenticatedRequest } from "../common/utils";
+import { useGlobalContext } from "../auth/contextProvider";
 
-export default function NewTask() {
+export default function NewTask({ role }) {
   const [taskName, setTaskName] = useState("");
   const [description, setDescription] = useState("");
   const [started, setStarted] = useState("");
   const [toEnd, setToEnd] = useState("");
   const [priority, setPriority] = useState("high");
   const [waitMessage, setWaitMessage] = useState(false);
+  const [employeesData, setEmpoyeesData] = useState(null);
+  const [employeeId, setEmployeeId] = useState("");
+  const [limit, setLimit] = useState(20);
+  const [offset, setOffset] = useState(0);
 
   const navigate = useNavigate();
   const request = configureAuthenticatedRequest();
@@ -30,12 +34,13 @@ export default function NewTask() {
       toEnd,
       priority,
     };
+    role === "admin" ? (payload["employeeId"] = employeeId) : null;
 
     request
-      .post("/employees/tasks/new_task", payload)
+      .post("/tasks/new_task", payload)
       .then((res) => {
         toast.success(res.data.message);
-        navigate("/employee/tasks/pending");
+        navigate(`/${role}/tasks/pending`);
       })
       .catch((error) => {
         if (
@@ -49,6 +54,21 @@ export default function NewTask() {
           toast.error("An error occured. Please try again");
         }
         setWaitMessage(false);
+      });
+  };
+  //get employees to assign task by admin
+  const getEmployeesData = () => {
+    request
+      .get(
+        `/admin/get_employees?offset=${offset}&limit=${limit}&action='assign_task'`
+      )
+      .then((res) => {
+        if (res.data && res.data.employees) {
+          setEmpoyeesData(res.data.employees);
+        }
+      })
+      .catch((error) => {
+        //
       });
   };
 
@@ -114,6 +134,32 @@ export default function NewTask() {
           <option value="low">Low</option>
         </select>
       </div>
+
+      {/*assign task by admin */}
+      {role === "admin" ? (
+        <div className="mb-3">
+          <label className="form-label">Assign task to:</label>
+          <select
+            className="form-select"
+            onClick={() => {
+              getEmployeesData();
+            }}
+            onChange={(e) => setEmployeeId(e.target.value)}
+            required
+          >
+            <option disabled>--select employee--</option>
+            {employeesData ? (
+              employeesData.map((employee, index) => (
+                <option key={index} value={employee.user_id}>
+                  {employee.first_name} {employee.last_name}
+                </option>
+              ))
+            ) : (
+              <option value=""> No employees found</option>
+            )}
+          </select>
+        </div>
+      ) : null}
 
       <button type="submit" className="btn btn-primary ">
         {waitMessage ? "Adding task..." : "Add new task"}
