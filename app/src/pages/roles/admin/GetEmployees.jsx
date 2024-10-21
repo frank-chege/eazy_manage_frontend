@@ -7,6 +7,10 @@ export default function GetEmployees() {
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(20);
   const [employeesData, setEmployeesData] = useState(null);
+  const [count, setCount] = useState({
+    pageCount: 0,
+    total: 0,
+  });
 
   useEffect(() => {
     request
@@ -14,6 +18,10 @@ export default function GetEmployees() {
       .then((res) => {
         if (res.data.employees) {
           setEmployeesData(res.data.employees);
+          setCount({
+            pageCount: res.data.count.page_count,
+            total: res.data.count.total,
+          });
         } else {
           toast.error("An error occured while fetching employees");
         }
@@ -39,7 +47,9 @@ export default function GetEmployees() {
           <table>
             <thead>
               <tr>
-                <th></th>
+                <th>
+                  showing {count.pageCount} of {count.total}
+                </th>
                 <th>First name</th>
                 <th>Last name</th>
                 <th>Email</th>

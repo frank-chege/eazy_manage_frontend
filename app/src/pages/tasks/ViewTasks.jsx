@@ -9,6 +9,10 @@ export default function ViewTasks({ status = "pending", role }) {
   const [offset, setOffset] = useState(0);
   const request = configureAuthenticatedRequest();
   const [refresh, toggleRefresh] = useState(false);
+  const [count, setCount] = useState({
+    pageCount: 0,
+    total: 0,
+  });
 
   //change task status
   const changeStatus = useCallback((newStatus, taskId) => {
@@ -41,6 +45,10 @@ export default function ViewTasks({ status = "pending", role }) {
       .then((res) => {
         if (res.data.tasks) {
           setTasks(res.data.tasks);
+          setCount({
+            pageCount: res.data.count.page_count,
+            total: res.data.count.total,
+          });
         } else {
           toast.error(`An error occured fetching ${status} tasks`);
         }
@@ -69,7 +77,9 @@ export default function ViewTasks({ status = "pending", role }) {
           <table>
             <thead>
               <tr>
-                <th></th>
+                <th>
+                  showing {count.pageCount} of {count.total}
+                </th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Priority</th>
