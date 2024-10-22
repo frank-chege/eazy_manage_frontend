@@ -13,6 +13,12 @@ export default function ViewTasks({ status = "pending", role }) {
     pageCount: 0,
     total: 0,
   });
+  const [dateFilter, setDateFilter] = useState({
+    to: null,
+    from: null,
+  });
+  const [showFilters, setShowFilters] = useState(false);
+  const [pageNum, setPageNum] = useState(1);
 
   //change task status
   const changeStatus = useCallback((newStatus, taskId) => {
@@ -40,8 +46,13 @@ export default function ViewTasks({ status = "pending", role }) {
 
   //get tasks
   useEffect(() => {
+    const filter = JSON.stringify({ to: dateFilter.to, from: dateFilter.from });
     request
-      .get(`/tasks/get_tasks?offset=${offset}&limit=${limit}&status=${status}`)
+      .get(
+        `/tasks/get_tasks?offset=${offset}&limit=${limit}&status=${status}&filter=${encodeURIComponent(
+          filter
+        )}`
+      )
       .then((res) => {
         if (res.data.tasks) {
           setTasks(res.data.tasks);
@@ -72,8 +83,60 @@ export default function ViewTasks({ status = "pending", role }) {
 
   return (
     <>
+      <div></div>
       {tasks ? (
         <div>
+          {/* limit */}
+          <label className="form-label">Records per page</label>
+          <select
+            className="form-select"
+            onChange={(e) => setLimit(e.target.value)}
+            required
+          >
+            <option disabled>--records per page--</option>
+            <option value="20">20</option>
+            <option value="40">40</option>
+            <option value="60">60</option>
+            <option value="80">80</option>
+            <option value="100">100</option>
+          </select>
+          {/* filters */}
+          <div style={{ display: "flex" }}>
+            <p>Filter by:</p>
+            <button
+              onClick={() => setShowFilters((currentState) => !currentState)}
+            >
+              Date
+            </button>
+          </div>
+          {showFilters ? (
+            <div>
+              <label className="form-label">From</label>
+              <input
+                className="form-control"
+                type="date"
+                value={dateFilter.from}
+                onChange={(e) =>
+                  setDateFilter((prev) => ({ ...prev, from: e.target.value }))
+                }
+                required
+              />
+              <label className="form-label">To</label>
+              <input
+                className="form-control"
+                type="date"
+                value={dateFilter.to}
+                onChange={(e) =>
+                  setDateFilter((prev) => ({ ...prev, to: e.target.value }))
+                }
+                required
+              />
+              <button onClick={() => toggleRefresh((prev) => !prev)}>
+                Apply filter
+              </button>
+            </div>
+          ) : null}
+
           <table>
             <thead>
               <tr>
@@ -127,6 +190,24 @@ export default function ViewTasks({ status = "pending", role }) {
               ))}
             </tbody>
           </table>
+          <button
+            onClick={() => {
+              setOffset(limit * pageNum);
+              setPageNum((prev) => prev - 1);
+              toggleRefresh((prev) => !prev);
+            }}
+          >
+            Previous page
+          </button>
+          <button
+            onClick={() => {
+              setOffset(limit * pageNum);
+              setPageNum((prev) => prev + 1);
+              toggleRefresh((prev) => !prev);
+            }}
+          >
+            Next page
+          </button>
         </div>
       ) : (
         <h3>No tasks found</h3>
