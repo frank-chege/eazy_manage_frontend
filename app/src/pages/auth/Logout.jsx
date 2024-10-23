@@ -13,7 +13,6 @@ export default function Logout({ role }) {
 
   useEffect(() => {
     console.log(csrf_access_token);
-    const loadingToast = toast.loading("Logging out");
     const sendLogoutRequest = async () => {
       try {
         const response = await request.post(

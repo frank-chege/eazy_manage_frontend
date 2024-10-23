@@ -20,6 +20,17 @@ export default function ViewTasks({ status = "pending", role }) {
   const [showFilters, setShowFilters] = useState(false);
   const [pageNum, setPageNum] = useState(1);
 
+  // Reset component states when status changes
+  useEffect(() => {
+    setTasks(null);
+    setLimit(20);
+    setOffset(0);
+    setCount({ pageCount: 0, total: 0 });
+    setDateFilter({ to: null, from: null });
+    setShowFilters(false);
+    setPageNum(1);
+  }, [status]);
+
   //change task status
   const changeStatus = useCallback((newStatus, taskId) => {
     const payload = { newStatus, taskId };
@@ -134,6 +145,14 @@ export default function ViewTasks({ status = "pending", role }) {
               <button onClick={() => toggleRefresh((prev) => !prev)}>
                 Apply filter
               </button>
+              <button
+                onClick={() => {
+                  setDateFilter({ to: null, from: null });
+                  toggleRefresh((prev) => !prev);
+                }}
+              >
+                Remove filter
+              </button>
             </div>
           ) : null}
 
@@ -141,13 +160,14 @@ export default function ViewTasks({ status = "pending", role }) {
             <thead>
               <tr>
                 <th>
-                  showing {count.pageCount} of {count.total}
+                  showing {offset + 1} - {offset + count.pageCount} of{" "}
+                  {count.total}
                 </th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Priority</th>
                 <th>Started</th>
-                <th>Planned end date</th>
+                <th>{status == "pending" ? "Planned end date" : "Ended"}</th>
                 {/* no action column for admin pending tasks */}
                 {role === "admin" && status === "pending" ? null : (
                   <th>Action</th>
@@ -157,7 +177,12 @@ export default function ViewTasks({ status = "pending", role }) {
             <tbody>
               {tasks.map((task, index) => (
                 <tr key={index}>
-                  <td>{index + 1}</td>
+                  {pageNum === 1 ? (
+                    <td>{index + 1}</td>
+                  ) : (
+                    <td>{index + 1 + offset}</td>
+                  )}
+
                   <td>{task.task_name}</td>
                   <td>{task.description}</td>
                   <td>{task.priority}</td>
@@ -190,24 +215,29 @@ export default function ViewTasks({ status = "pending", role }) {
               ))}
             </tbody>
           </table>
-          <button
-            onClick={() => {
-              setOffset(limit * pageNum);
-              setPageNum((prev) => prev - 1);
-              toggleRefresh((prev) => !prev);
-            }}
-          >
-            Previous page
-          </button>
-          <button
-            onClick={() => {
-              setOffset(limit * pageNum);
-              setPageNum((prev) => prev + 1);
-              toggleRefresh((prev) => !prev);
-            }}
-          >
-            Next page
-          </button>
+          {/*page toggle buttons*/}
+          {pageNum > 1 ? (
+            <button
+              onClick={() => {
+                setOffset((pageNum - 2) * limit);
+                setPageNum((prev) => prev - 1);
+                toggleRefresh((prev) => !prev);
+              }}
+            >
+              Previous page
+            </button>
+          ) : null}
+          {count.pageCount + offset !== count.total ? (
+            <button
+              onClick={() => {
+                setOffset(limit * pageNum);
+                setPageNum((prev) => prev + 1);
+                toggleRefresh((prev) => !prev);
+              }}
+            >
+              Next page
+            </button>
+          ) : null}
         </div>
       ) : (
         <h3>No tasks found</h3>
