@@ -156,44 +156,71 @@ export default function ViewTasks({ status = "pending", role }) {
             </div>
           ) : null}
 
-          <table>
+          <table className="min-w-full border border-gray-200">
             <thead>
-              <tr>
-                <th>
+              <tr className="bg-red-500 text-white text-left">
+                <th className="border px-4 py-2">
                   showing {offset + 1} - {offset + count.pageCount} of{" "}
                   {count.total}
                 </th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Priority</th>
-                <th>Started</th>
-                <th>{status == "pending" ? "Planned end date" : "Ended"}</th>
-                {/* no action column for admin pending tasks */}
-                {role === "admin" && status === "pending" ? null : (
-                  <th>Action</th>
+                <th className="border px-4 py-2">Name</th>
+                <th className="border px-4 py-2">Description</th>
+                {role === "admin" && (
+                  <th className="border px-4 py-2">Employee</th>
+                )}
+                <th className="border px-4 py-2">Priority</th>
+                <th className="border px-4 py-2">Started</th>
+                <th className="border px-4 py-2">
+                  {status === "pending" ? "Planned end date" : "Ended"}
+                </th>
+                {!(role === "admin" && status === "pending") && (
+                  <th className="border px-4 py-2">Action</th>
                 )}
               </tr>
             </thead>
             <tbody>
               {tasks.map((task, index) => (
-                <tr key={index}>
+                <tr
+                  key={index}
+                  className={`${
+                    index % 2 === 0 ? "bg-red-100" : "bg-red-50"
+                  } text-left`}
+                >
                   {pageNum === 1 ? (
-                    <td>{index + 1}</td>
+                    <td className="border px-4 py-2">{index + 1}</td>
                   ) : (
-                    <td>{index + 1 + offset}</td>
+                    <td className="border px-4 py-2">{index + 1 + offset}</td>
                   )}
 
-                  <td>{task.task_name}</td>
-                  <td>{task.description}</td>
-                  <td>{task.priority}</td>
-                  <td>{task.started}</td>
-                  <td>{task.to_end}</td>
-                  {/* render different actions based on either pending or completed tasks */}
+                  <td className="border px-4 py-2">{task.task_name}</td>
+                  <td className="border px-4 py-2">{task.description}</td>
+                  {role === "admin" && (
+                    <td className="border px-4 py-2">
+                      {task.user.first_name} {task.user.last_name}
+                    </td>
+                  )}
+
+                  {/* Priority text styling based on its value */}
+                  <td
+                    className={`border px-4 py-2 font-bold ${
+                      task.priority === "HIGH"
+                        ? "text-red-600"
+                        : task.priority === "Medium"
+                        ? "text-orange-500"
+                        : "text-yellow-500"
+                    }`}
+                  >
+                    {task.priority}
+                  </td>
+
+                  <td className="border px-4 py-2">{task.started}</td>
+                  <td className="border px-4 py-2">{task.to_end}</td>
+
                   {status === "pending" ? (
-                    // hide action column for admin in pending tasks
                     role === "admin" ? null : (
-                      <td>
+                      <td className="border px-4 py-2">
                         <button
+                          className="bg-green-500 text-white px-4 py-2 rounded"
                           onClick={() =>
                             changeStatus("completed", task.task_id)
                           }
@@ -203,8 +230,9 @@ export default function ViewTasks({ status = "pending", role }) {
                       </td>
                     )
                   ) : (
-                    <td>
+                    <td className="border px-4 py-2">
                       <button
+                        className="bg-red-500 text-white px-4 py-2 rounded"
                         onClick={() => changeStatus("pending", task.task_id)}
                       >
                         Mark incomplete
@@ -215,6 +243,7 @@ export default function ViewTasks({ status = "pending", role }) {
               ))}
             </tbody>
           </table>
+
           {/*page toggle buttons*/}
           {pageNum > 1 ? (
             <button

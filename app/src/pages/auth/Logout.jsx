@@ -35,33 +35,18 @@ export default function Logout({ role }) {
       console.log(logoutStatus);
       //failed logout
       if (!logoutStatus) {
-        toast.update(loadingToast, {
-          render: "Logout failed!",
-          type: "error",
-          isLoading: false,
-          autoClose: 3000,
-        });
+        toast.error("Logout failed!");
+      } else {
+        toast.success("Logged out successfully");
+        navigate("/");
       }
-      //successful logout
-      toast.update(loadingToast, {
-        render: "Logged out successfully",
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-      });
-      navigate("/");
     };
     //send logout request
     if (!checkingAuthStatus && isAuthenticated) {
       logout();
     }
     if (!checkingAuthStatus && !isAuthenticated) {
-      toast.update(loadingToast, {
-        render: "Logout failed!",
-        type: "error",
-        isLoading: false,
-        autoClose: 3000,
-      });
+      toast.error("Logout failed!");
     }
   }, [role, navigate, checkingAuthStatus, isAuthenticated]);
 
