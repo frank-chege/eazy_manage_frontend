@@ -58,12 +58,20 @@ export default function AddEmployee() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>Please fill the form to add new employee</h3>
-      <div className="mb-3">
-        <label className="form-label">Select role: </label>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto"
+    >
+      <h3 className="text-xl font-semibold mb-6 text-gray-800">
+        Please fill the form to add new employee
+      </h3>
+
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">
+          Select role:{" "}
+        </label>
         <select
-          className="form-select"
+          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
           onChange={(e) => setRole(e.target.value)}
           required
         >
@@ -73,10 +81,12 @@ export default function AddEmployee() {
         </select>
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">First name</label>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">
+          First name
+        </label>
         <input
-          className="form-control"
+          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
           type="text"
           pattern="[A-Za-z]+"
           value={firstName}
@@ -85,10 +95,13 @@ export default function AddEmployee() {
           required
         />
       </div>
-      <div className="mb-3">
-        <label className="form-label">Last name</label>
+
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">
+          Last name
+        </label>
         <input
-          className="form-control"
+          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
           type="text"
           pattern="[A-Za-z]+"
           title="Name can only contain letters."
@@ -98,10 +111,11 @@ export default function AddEmployee() {
           required
         />
       </div>
-      <div className="mb-3">
-        <label className="form-label">Email</label>
+
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">Email</label>
         <input
-          className="form-control"
+          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -110,10 +124,12 @@ export default function AddEmployee() {
         />
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">Select status: </label>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">
+          Select status:{" "}
+        </label>
         <select
-          className="form-select"
+          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
           onChange={(e) => setStatus(e.target.value)}
           required
         >
@@ -124,10 +140,12 @@ export default function AddEmployee() {
         </select>
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">Select department: </label>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">
+          Select department:{" "}
+        </label>
         <select
-          className="form-select"
+          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
           onChange={(e) => setDep(e.target.value)}
           required
         >
@@ -138,10 +156,12 @@ export default function AddEmployee() {
         </select>
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">Select job title: </label>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">
+          Select job title:{" "}
+        </label>
         <select
-          className="form-select"
+          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
           onChange={(e) => setjobTitle(e.target.value)}
           required
         >
@@ -152,19 +172,21 @@ export default function AddEmployee() {
         </select>
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">Joined</label>
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">Joined</label>
         <input
-          className="form-control"
+          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
           type="date"
           value={joined}
           onChange={(e) => setJoined(e.target.value)}
-          placeholder="select date"
           required
         />
       </div>
 
-      <button type="submit" className="btn btn-primary ">
+      <button
+        type="submit"
+        className="w-full bg-red-500 text-white py-2 px-4 rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+      >
         {waitMessage ? "Please wait..." : "Add Employee"}
       </button>
     </form>

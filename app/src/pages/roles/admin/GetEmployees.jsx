@@ -43,38 +43,53 @@ export default function GetEmployees() {
   return (
     <>
       {employeesData ? (
-        <div>
-          <table>
-            <thead>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+            <thead className="bg-red-500 text-white">
               <tr>
-                <th>
-                  showing {count.pageCount} of {count.total}
+                <th className="py-2 px-4 text-left">
+                  Showing {count.pageCount} of {count.total}
                 </th>
-                <th>First name</th>
-                <th>Last name</th>
-                <th>Email</th>
-                <th>Department</th>
-                <th>Job Title</th>
-                <th>Status</th>
+                <th className="py-2 px-4 text-left">First name</th>
+                <th className="py-2 px-4 text-left">Last name</th>
+                <th className="py-2 px-4 text-left">Email</th>
+                <th className="py-2 px-4 text-left">Department</th>
+                <th className="py-2 px-4 text-left">Job Title</th>
+                <th className="py-2 px-4 text-left">Status</th>
               </tr>
             </thead>
             <tbody>
               {employeesData.map((employee, index) => (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{employee.first_name}</td>
-                  <td>{employee.last_name}</td>
-                  <td>{employee.email}</td>
-                  <td>{employee.department}</td>
-                  <td>{employee.job_title}</td>
-                  <td>{employee.status}</td>
+                <tr
+                  key={index}
+                  className={`${
+                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
+                  } border-t border-gray-200`}
+                >
+                  <td className="py-2 px-4">{index + 1}</td>
+                  <td className="py-2 px-4">{employee.first_name}</td>
+                  <td className="py-2 px-4">{employee.last_name}</td>
+                  <td className="py-2 px-4">{employee.email}</td>
+                  <td className="py-2 px-4">{employee.department}</td>
+                  <td className="py-2 px-4">{employee.job_title}</td>
+                  <td className="py-2 px-4">
+                    <span
+                      className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${
+                        employee.status === "active"
+                          ? "bg-green-100 text-green-600"
+                          : "bg-red-100 text-red-600"
+                      }`}
+                    >
+                      {employee.status}
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       ) : (
-        <h3>No employees found</h3>
+        <h3 className="text-center text-gray-500">No employees found</h3>
       )}
     </>
   );

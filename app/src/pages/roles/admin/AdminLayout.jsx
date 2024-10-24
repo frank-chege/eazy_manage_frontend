@@ -1,11 +1,11 @@
 import Logout from "../../auth/Logout";
 import { Routes, Route } from "react-router-dom";
 import useCheckAuthStatus from "../../auth/authCheck";
-import AdminNavbar from "./AdminNavBar";
 import Forbidden from "../../errors/Forbidden";
 import Employees from "./Employees";
 import AdminMessages from "./AdminMessages";
 import TasksLayout from "../../tasks/TasksLayout";
+import Navbar from "../../common/NavBar";
 
 export default function AdminLayout({ children }) {
   const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus("admin");
@@ -17,7 +17,7 @@ export default function AdminLayout({ children }) {
   return (
     <>
       {children}
-      <AdminNavbar />
+      <Navbar role="admin" />
       <Routes>
         <Route path="/tasks/*" element={<TasksLayout role="admin" />} />
         <Route path="/employees/*" element={<Employees />} />

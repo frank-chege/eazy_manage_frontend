@@ -4,7 +4,6 @@ import NewTask from "./NewTask";
 import ViewTasks from "./ViewTasks";
 
 export default function TasksLayout({ role }) {
-  const url = `/${role}/tasks/pending`;
   const location = useLocation();
   // Determine if the current path is active
   const isActive = (path) => location.pathname === path;
@@ -60,7 +59,7 @@ export default function TasksLayout({ role }) {
                 d="M12 4v16m8-8H4"
               />
             </svg>
-            Assign Task
+            New task
           </Link>
         </nav>
       </div>
