@@ -23,7 +23,7 @@ export function configureRequest() {
     headers: {
       "Content-Type": "application/json",
     },
-    timeout: 10000,
+    //timeout: 5000,
   });
   return axiosRequest;
 }
@@ -39,7 +39,7 @@ export function configureAuthenticatedRequest() {
       "Content-Type": "application/json",
       "X-CSRF-TOKEN": csrf_access_token,
     },
-    timeout: 10000,
+    //timeout: 5000,
   });
   return axiosRequest;
 }
