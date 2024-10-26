@@ -30,7 +30,7 @@ const useCheckAuthStatus = (role = "") => {
       setCheckingAuthStatus(false);
     };
     checkStatus();
-  }, [navigate, request, csrf_access_token]);
+  }, []);
 
   return { checkingAuthStatus, isAuthenticated };
 };
