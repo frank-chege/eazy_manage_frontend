@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Extract value from a specific cookie by name
 export const getCookieValue = (name) => {
-  console.log(document.cookie);
+  console.log("cookies", document.cookie);
   const cookieValues = `; ${document.cookie}`;
   const parts = cookieValues.split(`; ${name}=`);
 
