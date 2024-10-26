@@ -31,7 +31,7 @@ export function configureRequest() {
 export function configureAuthenticatedRequest() {
   const url = import.meta.env.VITE_BASE_URL;
   const csrf_access_token = getCookieValue("csrf_access_token");
-  //console.log(csrf_access_token)
+  console.log(csrf_access_token);
   axios.defaults.withCredentials = true;
   const axiosRequest = axios.create({
     baseURL: url,
