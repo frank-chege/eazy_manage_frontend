@@ -19,7 +19,7 @@ export function configureRequest() {
   console.log(url);
   axios.defaults.withCredentials = true;
   const axiosRequest = axios.create({
-    baseURL: "https://eazymanagebackend-production.up.railway.app:5000/api/v1",
+    baseURL: "https://eazymanagebackend-production.up.railway.app/api/v1",
     headers: {
       "Content-Type": "application/json",
     },
@@ -34,7 +34,7 @@ export function configureAuthenticatedRequest() {
   const csrf_access_token = getCookieValue("csrf_access_token");
   axios.defaults.withCredentials = true;
   const axiosRequest = axios.create({
-    baseURL: "https://eazymanagebackend-production.up.railway.app:5000/api/v1",
+    baseURL: "https://eazymanagebackend-production.up.railway.app/api/v1",
     headers: {
       "Content-Type": "application/json",
       "X-CSRF-TOKEN": csrf_access_token,
