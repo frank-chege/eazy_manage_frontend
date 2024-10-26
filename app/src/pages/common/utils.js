@@ -18,7 +18,7 @@ export function configureRequest() {
   const url = import.meta.env.VITE_BASE_URL;
   axios.defaults.withCredentials = true;
   const axiosRequest = axios.create({
-    baseURL: url,
+    baseURL: "https://eazymanagebackend-production.up.railway.app:5000/api/v1",
     headers: {
       "Content-Type": "application/json",
     },
