@@ -1,10 +1,14 @@
 //check authentication status
 import { useEffect, useState } from "react";
-import { configureRequest, getCookieValue } from "../common/utils";
+import {
+  configureAuthenticatedRequest,
+  configureRequest,
+  getCookieValue,
+} from "../common/utils";
 import { useNavigate } from "react-router-dom";
 
 const useCheckAuthStatus = (role = "") => {
-  const request = configureRequest();
+  const request = configureAuthenticatedRequest();
   const csrf_access_token = getCookieValue("csrf_access_token");
   const payload = { role };
   const navigate = useNavigate();
