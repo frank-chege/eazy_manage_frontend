@@ -1,15 +1,10 @@
 //check authentication status
 import { useEffect, useState } from "react";
-import {
-  configureAuthenticatedRequest,
-  configureRequest,
-  getCookieValue,
-} from "../common/utils";
+import { configureAuthenticatedRequest, getCookieValue } from "../common/utils";
 import { useNavigate } from "react-router-dom";
 
 const useCheckAuthStatus = (role = "") => {
   const request = configureAuthenticatedRequest();
-  const csrf_access_token = getCookieValue("csrf_access_token");
   const payload = { role };
   const navigate = useNavigate();
   const [checkingAuthStatus, setCheckingAuthStatus] = useState(true);
@@ -18,11 +13,7 @@ const useCheckAuthStatus = (role = "") => {
   useEffect(() => {
     const authCheck = async () => {
       try {
-        const response = await request.post("/auth/auth_status", payload, {
-          headers: {
-            "X-CSRF-TOKEN": csrf_access_token,
-          },
-        });
+        const response = await request.post("/auth/auth_status", payload);
         return response.data && response.data.status === "true";
       } catch (error) {
         // console.log("Authentication failed");
