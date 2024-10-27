@@ -23,8 +23,7 @@ function Login() {
       .post("/auth/login", payload)
       .then((res) => {
         const role = res.data.role;
-        document.cookie =
-          "csrf_token=" + res.data.token + "; path=/; Secure; SameSite=None";
+        document.cookie = "csrf_token=" + res.data.token + ";";
         navigate(`/${role}/tasks`);
         toast.success(res.data.message);
       })
