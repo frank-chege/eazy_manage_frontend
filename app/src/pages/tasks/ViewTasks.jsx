@@ -19,6 +19,7 @@ export default function ViewTasks({ status = "pending", role }) {
   });
   const [showFilters, setShowFilters] = useState(false);
   const [pageNum, setPageNum] = useState(1);
+  const [loadingTasks, setLoadingTasks] = useState(true);
 
   // Reset component states when status changes
   useEffect(() => {
@@ -57,6 +58,7 @@ export default function ViewTasks({ status = "pending", role }) {
 
   //get tasks
   useEffect(() => {
+    setLoadingTasks(true);
     const filter = JSON.stringify({ to: dateFilter.to, from: dateFilter.from });
     request
       .get(
@@ -90,6 +92,7 @@ export default function ViewTasks({ status = "pending", role }) {
           toast.error("An error occured. Please try again");
         }
       });
+    setLoadingTasks(false);
   }, [offset, limit, status, refresh]);
 
   return (
@@ -289,7 +292,14 @@ export default function ViewTasks({ status = "pending", role }) {
           ) : null}
         </div>
       ) : (
-        <h3 className="text-center text-gray-500">No tasks found</h3>
+        <h3 className="text-center text-gray-500">
+          {loadingTasks
+            ? "Loading tasks"
+            : !tasks ||
+              (typeof tasks === "object" && Object.keys(tasks).length === 0)
+            ? "No tasks found"
+            : null}
+        </h3>
       )}
     </>
   );

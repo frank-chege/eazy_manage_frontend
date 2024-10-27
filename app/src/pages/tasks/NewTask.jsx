@@ -8,11 +8,15 @@ export default function NewTask({ role }) {
   const [description, setDescription] = useState("");
   const [started, setStarted] = useState("");
   const [toEnd, setToEnd] = useState("");
-  const [priority, setPriority] = useState("high");
+  const [priority, setPriority] = useState("");
   const [waitMessage, setWaitMessage] = useState(false);
   const [employeesData, setEmpoyeesData] = useState(null);
   const [employeeId, setEmployeeId] = useState("");
   const [fetchEmployees, setFetchEmployees] = useState(false);
+  const [pagination, setPagination] = useState({
+    offset: 0,
+    limit: 20,
+  });
 
   const navigate = useNavigate();
   const request = configureAuthenticatedRequest();
@@ -57,7 +61,7 @@ export default function NewTask({ role }) {
   const getEmployeesData = () => {
     request
       .get(
-        `/admin/get_employees?offset=${offset}&limit=${limit}&action='assign_task'`
+        `/admin/get_employees?offset=${pagination.offset}&limit=${pagination.limit}&action='assign_task'`
       )
       .then((res) => {
         if (res.data && res.data.employees) {
@@ -139,9 +143,12 @@ export default function NewTask({ role }) {
         <select
           className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
           onChange={(e) => setPriority(e.target.value)}
+          value={priority}
           required
         >
-          <option disabled>--select priority--</option>
+          <option value="" disabled>
+            --select priority--
+          </option>
           <option value="high">High</option>
           <option value="medium">Medium</option>
           <option value="low">Low</option>
@@ -160,9 +167,12 @@ export default function NewTask({ role }) {
               setFetchEmployees(true);
             }}
             onChange={(e) => setEmployeeId(e.target.value)}
+            value={employeeId}
             required
           >
-            <option disabled>--select employee--</option>
+            <option value="" disabled>
+              --select employee--
+            </option>
             {employeesData ? (
               employeesData.map((employee, index) => (
                 <option key={index} value={employee.user_id}>
