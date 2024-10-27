@@ -1,8 +1,7 @@
 //authenticates login requests
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useGlobalContext } from "./contextProvider";
 import { configureRequest } from "../common/utils";
 
 function Login() {
