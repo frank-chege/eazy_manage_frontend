@@ -1,12 +1,10 @@
 //check authentication status
 import { useEffect, useState } from "react";
-import { configureAuthenticatedRequest, getCookieValue } from "../common/utils";
-import { useNavigate } from "react-router-dom";
+import { configureAuthenticatedRequest } from "../common/utils";
 
 const useCheckAuthStatus = (role = "") => {
   const request = configureAuthenticatedRequest();
   const payload = { role };
-  const navigate = useNavigate();
   const [checkingAuthStatus, setCheckingAuthStatus] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -16,8 +14,6 @@ const useCheckAuthStatus = (role = "") => {
         const response = await request.post("/auth/auth_status", payload);
         return response.data && response.data.status === "true";
       } catch (error) {
-        // console.log("Authentication failed");
-        // console.log(error);
         return false;
       }
     };
