@@ -1,13 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { configureRequest } from "../common/utils";
+import {
+  configureAuthenticatedRequest,
+  configureRequest,
+} from "../common/utils";
 import { toast } from "react-toastify";
 import useCheckAuthStatus from "./authCheck";
 import { getCookieValue } from "../common/utils";
 
 export default function Logout({ role }) {
   const navigate = useNavigate();
-  const request = configureRequest();
+  const request = configureAuthenticatedRequest;
   const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus(role);
   const csrf_access_token = getCookieValue("csrf_access_token");
 
