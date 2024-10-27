@@ -64,7 +64,7 @@ export default function NewTask({ role }) {
         }
       })
       .catch((error) => {
-        //
+        toast.error("Error loading employees");
       });
   };
 
