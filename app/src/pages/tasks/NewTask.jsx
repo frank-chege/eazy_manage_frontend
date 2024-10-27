@@ -12,6 +12,7 @@ export default function NewTask({ role }) {
   const [waitMessage, setWaitMessage] = useState(false);
   const [employeesData, setEmpoyeesData] = useState(null);
   const [employeeId, setEmployeeId] = useState("");
+  const [fetchEmployees, setFetchEmployees] = useState(false);
 
   const navigate = useNavigate();
   const request = configureAuthenticatedRequest();
@@ -66,6 +67,7 @@ export default function NewTask({ role }) {
       .catch((error) => {
         toast.error("Error loading employees");
       });
+    setFetchEmployees(false);
   };
 
   return (
@@ -153,7 +155,10 @@ export default function NewTask({ role }) {
           </label>
           <select
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-            onClick={() => getEmployeesData()}
+            onClick={() => {
+              getEmployeesData();
+              setFetchEmployees(true);
+            }}
             onChange={(e) => setEmployeeId(e.target.value)}
             required
           >
@@ -165,7 +170,9 @@ export default function NewTask({ role }) {
                 </option>
               ))
             ) : (
-              <option value="">No employees selected</option>
+              <option value="">
+                {fetchEmployees ? "Loading employees" : "No employees selected"}
+              </option>
             )}
           </select>
         </div>
