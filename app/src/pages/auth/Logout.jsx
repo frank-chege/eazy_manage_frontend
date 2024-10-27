@@ -7,7 +7,7 @@ import { getCookieValue } from "../common/utils";
 
 export default function Logout({ role }) {
   const navigate = useNavigate();
-  const request = configureAuthenticatedRequest;
+  const request = configureAuthenticatedRequest();
   const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus(role);
   const csrf_access_token = getCookieValue("csrf_access_token");
 
