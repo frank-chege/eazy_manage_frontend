@@ -1,9 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import {
-  configureAuthenticatedRequest,
-  configureRequest,
-} from "../common/utils";
+import { configureAuthenticatedRequest } from "../common/utils";
 import { toast } from "react-toastify";
 import useCheckAuthStatus from "./authCheck";
 import { getCookieValue } from "../common/utils";
@@ -18,15 +15,7 @@ export default function Logout({ role }) {
     console.log(csrf_access_token);
     const sendLogoutRequest = async () => {
       try {
-        const response = await request.post(
-          "/auth/logout",
-          {},
-          {
-            headers: {
-              "X-CSRF-TOKEN": csrf_access_token,
-            },
-          }
-        );
+        const response = await request.post("/auth/logout", {});
         return response.data && response.data.status === "true";
       } catch (error) {
         return false;
