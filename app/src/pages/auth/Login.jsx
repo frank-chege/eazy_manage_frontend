@@ -10,8 +10,6 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [waitMessage, setWaitMessage] = useState(false);
-
-  const { setLoginRole } = useGlobalContext();
   const navigate = useNavigate();
   const request = configureRequest();
   //create payload
@@ -25,7 +23,8 @@ function Login() {
       .post("/auth/login", payload)
       .then((res) => {
         const role = res.data.role;
-        setLoginRole(role);
+        document.cookie =
+          "csrf_token=" + res.data.token + "; path=/; Secure; SameSite=None";
         navigate(`/${role}/tasks`);
         toast.success(res.data.message);
       })
