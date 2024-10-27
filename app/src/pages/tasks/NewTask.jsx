@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { configureAuthenticatedRequest } from "../common/utils";
-import { useGlobalContext } from "../auth/contextProvider";
 
 export default function NewTask({ role }) {
   const [taskName, setTaskName] = useState("");
@@ -13,12 +12,9 @@ export default function NewTask({ role }) {
   const [waitMessage, setWaitMessage] = useState(false);
   const [employeesData, setEmpoyeesData] = useState(null);
   const [employeeId, setEmployeeId] = useState("");
-  const [limit, setLimit] = useState(20);
-  const [offset, setOffset] = useState(0);
 
   const navigate = useNavigate();
   const request = configureAuthenticatedRequest();
-  const { loginRole } = useGlobalContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
