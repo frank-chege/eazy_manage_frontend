@@ -3,7 +3,7 @@ import { configureRequest } from "../common/utils";
 import { useGlobalContext } from "./GlobalContext";
 
 export function checkAuthStatus() {
-  const request = configureRequest();
+  const request = configureAuthenticatedRequest();
   const { email, role } = useGlobalContext();
   const payload = { email, role };
   try {
