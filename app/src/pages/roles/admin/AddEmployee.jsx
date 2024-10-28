@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { configureRequest } from "../../common/utils";
+import { configureAuthenticatedRequest } from "../../common/utils";
 
 export default function AddEmployee() {
   const [role, setRole] = useState("");
@@ -13,7 +13,7 @@ export default function AddEmployee() {
   const [joined, setJoined] = useState("");
   const [waitMessage, setWaitMessage] = useState(false);
 
-  const request = configureRequest();
+  const request = configureAuthenticatedRequest();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

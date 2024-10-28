@@ -124,9 +124,9 @@ export default function ViewTasks({ status = "pending", role }) {
               style={{ display: "flex", alignItems: "center" }}
               className="mt-4"
             >
-              <p className="text-black mr-1 text-sm">Filter by:</p>
+              <p className="text-black m-1 text-sm">Filter by:</p>
               <button
-                className="bg-gray-800 text-white py-2 px-4 rounded hover:bg-red-600 text-sm m-2"
+                className="bg-gray-800 text-white py-2 px-4 rounded hover:bg-red-600 text-sm m-1"
                 onClick={() => setShowFilters((currentState) => !currentState)}
               >
                 Date
@@ -139,7 +139,7 @@ export default function ViewTasks({ status = "pending", role }) {
                   From
                 </label>
                 <input
-                  className="form-control p-2 bg-gray-800 text-white border border-gray-600 rounded mb-2 text-sm"
+                  className="form-control p-2 bg-gray-300 text-gray-800 border border-gray-400 rounded mb-2 text-sm"
                   type="date"
                   value={dateFilter.from}
                   onChange={(e) =>
@@ -147,9 +147,10 @@ export default function ViewTasks({ status = "pending", role }) {
                   }
                   required
                 />
+
                 <label className="form-label text-black px-1">To</label>
                 <input
-                  className="form-control p-2 bg-gray-800 text-white border border-gray-600 rounded mb-2 text-sm"
+                  className="form-control p-2 bg-gray-300 text-gray-800 border border-gray-400 rounded mb-2 text-sm mr-2"
                   type="date"
                   value={dateFilter.to}
                   onChange={(e) =>
@@ -158,13 +159,13 @@ export default function ViewTasks({ status = "pending", role }) {
                   required
                 />
                 <button
-                  className="bg-red-600 text-white py-2 px-4 rounded m-2 hover:bg-red-700"
+                  className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700"
                   onClick={() => toggleRefresh((prev) => !prev)}
                 >
                   Apply filter
                 </button>
                 <button
-                  className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700"
+                  className="bg-red-600 text-white py-2 px-4 rounded m-2 hover:bg-red-700"
                   onClick={() => {
                     setDateFilter({ to: null, from: null });
                     toggleRefresh((prev) => !prev);

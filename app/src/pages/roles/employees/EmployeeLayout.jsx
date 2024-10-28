@@ -7,7 +7,8 @@ import TasksLayout from "../../tasks/TasksLayout";
 import Navbar from "../../common/NavBar";
 
 export default function EmployeeLayout({ children }) {
-  const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus("author");
+  const { checkingAuthStatus, isAuthenticated } =
+    useCheckAuthStatus("employee");
 
   if (!checkingAuthStatus && !isAuthenticated) {
     return <Forbidden />;

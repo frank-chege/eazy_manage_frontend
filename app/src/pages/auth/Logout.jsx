@@ -9,10 +9,8 @@ export default function Logout({ role }) {
   const navigate = useNavigate();
   const request = configureAuthenticatedRequest();
   const { checkingAuthStatus, isAuthenticated } = useCheckAuthStatus(role);
-  const csrf_access_token = getCookieValue("csrf_access_token");
 
   useEffect(() => {
-    console.log(csrf_access_token);
     const sendLogoutRequest = async () => {
       try {
         const response = await request.post("/auth/logout", {});
