@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { configureAuthenticatedRequest } from "../common/utils";
 import { toast } from "react-toastify";
 import useCheckAuthStatus from "./authCheck";
-import { getCookieValue } from "../common/utils";
+import Cookies from "js-cookie";
 
 export default function Logout({ role }) {
   const navigate = useNavigate();
@@ -22,12 +22,12 @@ export default function Logout({ role }) {
 
     const logout = async () => {
       const logoutStatus = await sendLogoutRequest();
-      console.log(logoutStatus);
       //failed logout
       if (!logoutStatus) {
         toast.error("Logout failed!");
       } else {
         toast.success("Logged out successfully");
+        Cookies.remove("csrf_token");
         navigate("/");
       }
     };
