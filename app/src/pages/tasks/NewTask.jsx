@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { configureAuthenticatedRequest } from "../common/utils";
+import { useFetchEmployeeContext } from "../contexts/FetchEmployeesContext";
 
 export default function NewTask({ role }) {
   const [taskName, setTaskName] = useState("");
@@ -10,16 +11,21 @@ export default function NewTask({ role }) {
   const [toEnd, setToEnd] = useState("");
   const [priority, setPriority] = useState("");
   const [waitMessage, setWaitMessage] = useState(false);
-  const [employeesData, setEmpoyeesData] = useState(null);
   const [employeeId, setEmployeeId] = useState("");
-  const [fetchEmployees, setFetchEmployees] = useState(false);
-  const [pagination, setPagination] = useState({
-    offset: 0,
-    limit: 20,
-  });
-
   const navigate = useNavigate();
+  //get employees hook
+  const {
+    fetchEmployees,
+    setFetchEmployees,
+    employeesData,
+    setEmployeePagination,
+  } = useFetchEmployeeContext();
   const request = configureAuthenticatedRequest();
+
+  //fetch employees
+  useEffect(() => {
+    setFetchEmployees(true);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,22 +62,6 @@ export default function NewTask({ role }) {
         }
         setWaitMessage(false);
       });
-  };
-  //get employees to assign task by admin
-  const getEmployeesData = () => {
-    request
-      .get(
-        `/admin/get_employees?offset=${pagination.offset}&limit=${pagination.limit}&action='assign_task'`
-      )
-      .then((res) => {
-        if (res.data && res.data.employees) {
-          setEmpoyeesData(res.data.employees);
-        }
-      })
-      .catch((error) => {
-        toast.error("Error loading employees");
-      });
-    setFetchEmployees(false);
   };
 
   return (
@@ -162,10 +152,6 @@ export default function NewTask({ role }) {
           </label>
           <select
             className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-            onClick={() => {
-              getEmployeesData();
-              setFetchEmployees(true);
-            }}
             onChange={(e) => setEmployeeId(e.target.value)}
             value={employeeId}
             required
@@ -181,7 +167,7 @@ export default function NewTask({ role }) {
               ))
             ) : (
               <option value="">
-                {fetchEmployees ? "Loading employees" : "No employees selected"}
+                {fetchEmployees ? "Loading employees" : "No employees found"}
               </option>
             )}
           </select>
