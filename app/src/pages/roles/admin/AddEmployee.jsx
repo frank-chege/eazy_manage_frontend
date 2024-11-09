@@ -4,12 +4,12 @@ import { configureAuthenticatedRequest } from "../../common/utils";
 
 export default function AddEmployee() {
   const [role, setRole] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
-  const [dep, setDep] = useState("");
-  const [jobTitle, setjobTitle] = useState("");
+  const [department, setDep] = useState("");
+  const [job_title, setjobTitle] = useState("");
   const [joined, setJoined] = useState("");
   const [waitMessage, setWaitMessage] = useState(false);
 
@@ -18,23 +18,23 @@ export default function AddEmployee() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     //verify input
-    if (firstName.length < 3 || lastName < 3) {
+    if (first_name.length < 3 || last_name < 3) {
       toast.error("Name is too short!");
       return;
     }
     const payload = {
       role,
-      firstName,
-      lastName,
+      first_name,
+      last_name,
       email,
       status,
-      dep,
-      jobTitle,
+      department,
+      job_title,
       joined,
     };
 
     request
-      .post("/auth/register", payload)
+      .post("/admin/reg_employee", payload)
       .then((res) => {
         toast.success(res.data.message);
       })
@@ -56,18 +56,18 @@ export default function AddEmployee() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto"
+      className="bg-gray-800 p-6 rounded-lg shadow-md max-w-lg mx-auto"
     >
-      <h3 className="text-xl font-semibold mb-6 text-gray-800">
+      <h3 className="text-xl font-semibold mb-6 text-white">
         Please fill the form to add new employee
       </h3>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">
+        <label className="block text-gray-300 font-medium mb-2">
           Select role:{" "}
         </label>
         <select
-          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
+          className="block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 py-2 px-3 text-white"
           onChange={(e) => setRole(e.target.value)}
           value={role}
           required
@@ -81,14 +81,14 @@ export default function AddEmployee() {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">
+        <label className="block text-gray-300 font-medium mb-2">
           First name
         </label>
         <input
-          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
+          className="block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 py-2 px-3 text-white"
           type="text"
           pattern="[A-Za-z]+"
-          value={firstName}
+          value={first_name}
           onChange={(e) => setFirstName(e.target.value)}
           placeholder="Enter first name"
           required
@@ -96,15 +96,15 @@ export default function AddEmployee() {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">
+        <label className="block text-gray-300 font-medium mb-2">
           Last name
         </label>
         <input
-          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
+          className="block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 py-2 px-3 text-white"
           type="text"
           pattern="[A-Za-z]+"
           title="Name can only contain letters."
-          value={lastName}
+          value={last_name}
           onChange={(e) => setLastName(e.target.value)}
           placeholder="Enter last name"
           required
@@ -112,9 +112,9 @@ export default function AddEmployee() {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">Email</label>
+        <label className="block text-gray-300 font-medium mb-2">Email</label>
         <input
-          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
+          className="block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 py-2 px-3 text-white"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -124,11 +124,11 @@ export default function AddEmployee() {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">
+        <label className="block text-gray-300 font-medium mb-2">
           Select status:{" "}
         </label>
         <select
-          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
+          className="block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 py-2 px-3 text-white"
           onChange={(e) => setStatus(e.target.value)}
           value={status}
           required
@@ -143,13 +143,13 @@ export default function AddEmployee() {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">
+        <label className="block text-gray-300 font-medium mb-2">
           Select department:{" "}
         </label>
         <select
-          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
+          className="block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 py-2 px-3 text-white"
           onChange={(e) => setDep(e.target.value)}
-          value={dep}
+          value={department}
           required
         >
           <option value="" disabled>
@@ -162,13 +162,13 @@ export default function AddEmployee() {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">
+        <label className="block text-gray-300 font-medium mb-2">
           Select job title:{" "}
         </label>
         <select
-          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
+          className="block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 py-2 px-3 text-white"
           onChange={(e) => setjobTitle(e.target.value)}
-          value={jobTitle}
+          value={job_title}
           required
         >
           <option value="" disabled>
@@ -181,9 +181,9 @@ export default function AddEmployee() {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-medium mb-2">Joined</label>
+        <label className="block text-gray-300 font-medium mb-2">Joined</label>
         <input
-          className="block w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500 py-2 px-3"
+          className="block w-full bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-gray-500 focus:border-gray-500 py-2 px-3 text-white"
           type="date"
           value={joined}
           onChange={(e) => setJoined(e.target.value)}
@@ -193,7 +193,7 @@ export default function AddEmployee() {
 
       <button
         type="submit"
-        className="w-full bg-red-500 text-white py-2 px-4 rounded-md shadow hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50"
+        className="w-full bg-gray-600 text-white py-2 px-4 rounded-md shadow hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
       >
         {waitMessage ? "Adding employee..." : "Add Employee"}
       </button>

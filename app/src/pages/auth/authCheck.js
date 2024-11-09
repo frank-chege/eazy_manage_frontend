@@ -11,7 +11,7 @@ const useCheckAuthStatus = (role = "") => {
   useEffect(() => {
     const authCheck = async () => {
       try {
-        const response = await request.post("/auth/auth_status", payload);
+        const response = await request.post("/auth/check_auth_status", payload);
         return response.data && response.data.status === "true";
       } catch (error) {
         return false;

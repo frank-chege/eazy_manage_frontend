@@ -122,10 +122,10 @@ export default function ViewTasks({ status = "pending", role = "employee" }) {
   return (
     <>
       <div>
-        <div className="flex justify-center items-center py-0 px-4">
+        <div className="flex justify-center items-center py-4 px-6 bg-black">
           {/* limit */}
           <div>
-            <label className="form-label text-black mr-1 text-sm">
+            <label className="form-label text-white mr-1 text-sm">
               Records per page
             </label>
             <select
@@ -145,11 +145,8 @@ export default function ViewTasks({ status = "pending", role = "employee" }) {
           </div>
 
           {/* filters */}
-          <div
-            style={{ display: "flex", alignItems: "center" }}
-            className="mt-4"
-          >
-            <p className="text-black m-1 text-sm">Filter by:</p>
+          <div className="mt-4 flex items-center">
+            <p className="text-white m-1 text-sm">Filter by:</p>
             <button
               className="bg-gray-800 text-white py-2 px-4 rounded hover:bg-red-600 text-sm m-1"
               onClick={() =>
@@ -163,7 +160,6 @@ export default function ViewTasks({ status = "pending", role = "employee" }) {
               <button
                 className="bg-gray-800 text-white py-2 px-4 rounded hover:bg-red-600 text-sm m-1"
                 onClick={() => {
-                  //get employees
                   setFetchEmployees(true);
                   setShowFilters((prev) => ({
                     ...prev,
@@ -179,9 +175,9 @@ export default function ViewTasks({ status = "pending", role = "employee" }) {
           {/* date filters */}
           {showFilters.date ? (
             <div className="mt-4">
-              <label className="form-label text-black text-sm px-1">From</label>
+              <label className="form-label text-white text-sm px-1">From</label>
               <input
-                className="form-control p-2 bg-gray-300 text-gray-800 border border-gray-400 rounded mb-2 text-sm"
+                className="form-control p-2 bg-gray-700 text-white border border-gray-500 rounded mb-2 text-sm"
                 type="date"
                 value={filters.from}
                 onChange={(e) =>
@@ -190,9 +186,9 @@ export default function ViewTasks({ status = "pending", role = "employee" }) {
                 required
               />
 
-              <label className="form-label text-black px-1">To</label>
+              <label className="form-label text-white px-1">To</label>
               <input
-                className="form-control p-2 bg-gray-300 text-gray-800 border border-gray-400 rounded mb-2 text-sm mr-2"
+                className="form-control p-2 bg-gray-700 text-white border border-gray-500 rounded mb-2 text-sm mr-2"
                 type="date"
                 value={filters.to}
                 onChange={(e) =>
@@ -207,11 +203,11 @@ export default function ViewTasks({ status = "pending", role = "employee" }) {
         {/* employee filter */}
         {showFilters.employee && role === "admin" ? (
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold mb-2">
+            <label className="block text-white font-semibold mb-2">
               Select Employee
             </label>
             <select
-              className="w-120s p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-120s p-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm"
               onChange={(e) =>
                 setFilters((prev) => ({
                   ...prev,
@@ -260,10 +256,11 @@ export default function ViewTasks({ status = "pending", role = "employee" }) {
           </div>
         ) : null}
       </div>
+
       <div>
-        <table className="min-w-full border border-gray-200">
+        <table className="min-w-full border border-gray-200 bg-black text-white">
           <thead>
-            <tr className="bg-red-500 text-white text-left">
+            <tr className="bg-gray-800 text-white">
               <th className="border px-2 py-2 w-15 text-sm">
                 showing <br /> {pagination.offset + 1} -{" "}
                 {pagination.offset + count.pageCount} of {count.total}
@@ -291,7 +288,7 @@ export default function ViewTasks({ status = "pending", role = "employee" }) {
                 <tr
                   key={index}
                   className={`${
-                    index % 2 === 0 ? "bg-red-100" : "bg-red-50"
+                    index % 2 === 0 ? "bg-gray-700" : "bg-gray-800"
                   } text-left`}
                 >
                   {pageNum === 1 ? (
@@ -370,39 +367,30 @@ export default function ViewTasks({ status = "pending", role = "employee" }) {
                   setPageNum((prev) => prev - 1);
                   toggleRefresh((prev) => !prev);
                 }}
-                className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition-colors duration-200 ease-in-out"
+                className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition-colors duration-200"
               >
-                Previous page
+                Previous
               </button>
             ) : null}
 
-            {count.pageCount + pagination.offset !== count.total ? (
+            {pagination.offset + pagination.limit < count.total ? (
               <button
                 onClick={() => {
                   setPagination((prev) => ({
                     ...prev,
-                    offset: pagination.limit * pageNum,
+                    offset: pageNum * pagination.limit,
                   }));
                   setPageNum((prev) => prev + 1);
                   toggleRefresh((prev) => !prev);
                 }}
-                className="ml-3 px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition-colors duration-200 ease-in-out"
+                className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition-colors duration-200"
               >
-                Next page
+                Next
               </button>
             ) : null}
           </>
         ) : null}
       </div>
-
-      <h3 className="text-center text-gray-500">
-        {loadingTasks
-          ? "Loading tasks"
-          : !tasks ||
-            (typeof tasks === "object" && Object.keys(tasks).length === 0)
-          ? "No tasks found"
-          : null}
-      </h3>
     </>
   );
 }

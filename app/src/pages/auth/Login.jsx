@@ -1,28 +1,31 @@
-//authenticates login requests
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { configureRequest } from "../common/utils";
+import Cookies from "js-cookie";
 
 function Login() {
-  //define states to manage input values
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [waitMessage, setWaitMessage] = useState(false);
   const navigate = useNavigate();
   const request = configureRequest();
-  //create payload
   const payload = { email, password };
-  //handle form submission
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
     setWaitMessage(true);
     request
       .post("/auth/login", payload)
       .then((res) => {
         const role = res.data.role;
-        document.cookie = "csrf_token=" + res.data.token + ";";
+        //check if cookie exists
+        if (!Cookies.get("csrf_token")) {
+          Cookies.set("csrf_token", res.data.token);
+        } else {
+          Cookies.remove("csrf_token");
+          Cookies.set("csrf_token", res.data.token);
+        }
         navigate(`/${role}/tasks`);
         toast.success(res.data.message);
       })
@@ -38,29 +41,30 @@ function Login() {
           toast.error(error.response.data.error);
         } else {
           console.log(error);
-          toast.error("An error occured. PLease try again");
+          toast.error("An error occurred. Please try again.");
         }
         setWaitMessage(false);
       });
   };
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-red-700">
-      {/* Deep red background */}
+    <div className="flex items-center justify-center min-h-screen bg-black bg-opacity-95">
+      {/* Very dark page background */}
 
       <form
         onSubmit={handleSubmit}
-        className="bg-black bg-opacity-95 p-6 rounded shadow-lg w-96"
+        className="bg-gray-900 bg-opacity-90 p-6 rounded-md shadow-md max-w-md w-full mx-4"
       >
-        {/* Form container with black background and opacity */}
+        {/* Form with slightly transparent, dark background */}
 
-        <h3 className="text-white mb-4 text-center">
-          Please fill the form to login
+        <h3 className="text-gray-300 mb-5 text-center text-lg font-semibold">
+          Login to Your Account
         </h3>
 
-        <div className="mb-4">
-          <label className="form-label text-white block mb-1">Email</label>
+        <div className="mb-3">
+          <label className="block text-gray-400 font-medium mb-1">Email</label>
           <input
-            className="form-control bg-white text-black border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="block w-full bg-gray-800 text-gray-300 border border-gray-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
             type="email"
             autoComplete="email"
             value={email}
@@ -69,10 +73,12 @@ function Login() {
           />
         </div>
 
-        <div className="mb-4">
-          <label className="form-label text-white block mb-1">Password</label>
+        <div className="mb-3">
+          <label className="block text-gray-400 font-medium mb-1">
+            Password
+          </label>
           <input
-            className="form-control bg-white text-black border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+            className="block w-full bg-gray-800 text-gray-300 border border-gray-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
             type="password"
             autoComplete="current-password"
             value={password}
@@ -81,12 +87,29 @@ function Login() {
           />
         </div>
 
+        <Link
+          to={"/reset_password"}
+          className="text-gray-400 hover:text-gray-200 underline"
+        >
+          Forgot your password?
+        </Link>
+
         <button
           type="submit"
-          className="btn btn-primary bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition duration-200 w-full"
+          className="bg-gray-700 text-gray-300 p-2 rounded-md hover:bg-gray-600 transition duration-200 w-full font-medium"
         >
-          {waitMessage ? "Please wait..." : "Login"}
+          {waitMessage ? "Logging in..." : "Login"}
         </button>
+
+        <p className="text-gray-500 text-sm text-center mt-5">
+          Don't have an account?{" "}
+          <Link
+            to={"/register"}
+            className="text-gray-400 hover:text-gray-200 underline"
+          >
+            Register here
+          </Link>
+        </p>
       </form>
     </div>
   );

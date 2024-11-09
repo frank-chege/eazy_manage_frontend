@@ -44,8 +44,8 @@ export default function GetEmployees() {
     <>
       {employeesData ? (
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-            <thead className="bg-red-500 text-white">
+          <table className="min-w-full bg-black border border-gray-200 rounded-lg shadow-md">
+            <thead className="bg-gray-800 text-white border-b border-gray-600">
               <tr>
                 <th className="py-2 px-4 text-left">
                   Showing {count.pageCount} of {count.total}
@@ -63,16 +63,28 @@ export default function GetEmployees() {
                 <tr
                   key={index}
                   className={`${
-                    index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                  } border-t border-gray-200`}
+                    index % 2 === 0 ? "bg-gray-800" : "bg-gray-700"
+                  } border-b border-gray-600`}
                 >
-                  <td className="py-2 px-4">{index + 1}</td>
-                  <td className="py-2 px-4">{employee.first_name}</td>
-                  <td className="py-2 px-4">{employee.last_name}</td>
-                  <td className="py-2 px-4">{employee.email}</td>
-                  <td className="py-2 px-4">{employee.department}</td>
-                  <td className="py-2 px-4">{employee.job_title}</td>
-                  <td className="py-2 px-4">
+                  <td className="py-2 px-4 text-white border-b border-gray-600">
+                    {index + 1}
+                  </td>
+                  <td className="py-2 px-4 text-white border-b border-gray-600">
+                    {employee.first_name}
+                  </td>
+                  <td className="py-2 px-4 text-white border-b border-gray-600">
+                    {employee.last_name}
+                  </td>
+                  <td className="py-2 px-4 text-white border-b border-gray-600">
+                    {employee.email}
+                  </td>
+                  <td className="py-2 px-4 text-white border-b border-gray-600">
+                    {employee.department}
+                  </td>
+                  <td className="py-2 px-4 text-white border-b border-gray-600">
+                    {employee.job_title}
+                  </td>
+                  <td className="py-2 px-4 text-white border-b border-gray-600">
                     <span
                       className={`inline-block px-2 py-1 text-xs font-semibold rounded-full ${
                         employee.status === "active"

@@ -1,10 +1,11 @@
 import Logout from "../../auth/Logout";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import useCheckAuthStatus from "../../auth/authCheck";
 import Forbidden from "../../errors/Forbidden";
 import EmployeeMessages from "./EmployeeMessages";
 import TasksLayout from "../../tasks/TasksLayout";
-import Navbar from "../../common/NavBar";
+import PrivateNavbar from "../../common/PrivateNavBar";
+import ResetPassword from "../../auth/ResetPassword";
 
 export default function EmployeeLayout({ children }) {
   const { checkingAuthStatus, isAuthenticated } =
@@ -16,11 +17,15 @@ export default function EmployeeLayout({ children }) {
   return (
     <>
       {children}
-      <Navbar role="employee" />
+      <PrivateNavbar role="employee" />
       <Routes>
         <Route path="/tasks/*" element={<TasksLayout role="employee" />} />
-        <Route path="/messages" element={<EmployeeMessages />} />
+        <Route
+          path="/messages"
+          element={<EmployeeMessages role="employee" />}
+        />
         <Route path="/logout" element={<Logout role="employee" />} />
+        <Route path="/reset_password" element={<ResetPassword />} />
       </Routes>
     </>
   );

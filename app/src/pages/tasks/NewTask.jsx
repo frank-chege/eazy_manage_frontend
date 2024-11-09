@@ -67,18 +67,18 @@ export default function NewTask({ role }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-red-100 p-6 rounded-md shadow-md max-w-lg mx-auto"
+      className="bg-black p-6 rounded-md shadow-md max-w-lg mx-auto"
     >
-      <h3 className="text-white bg-red-500 py-2 px-4 text-center font-medium text-lg mb-6 rounded-md">
+      <h3 className="text-white bg-gray-800 py-2 px-4 text-center font-medium text-lg mb-6 rounded-md">
         Fill the details below to add a new task
       </h3>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">
+        <label className="block text-gray-400 font-medium mb-1">
           Task name
         </label>
         <input
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+          className="block w-full bg-gray-800 text-gray-300 border border-gray-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
           type="text"
           value={taskName}
           onChange={(e) => setTaskName(e.target.value)}
@@ -88,11 +88,11 @@ export default function NewTask({ role }) {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">
+        <label className="block text-gray-400 font-medium mb-1">
           Task description
         </label>
         <textarea
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+          className="block w-full bg-gray-800 text-gray-300 border border-gray-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Add detailed task description"
@@ -101,11 +101,11 @@ export default function NewTask({ role }) {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">
+        <label className="block text-gray-400 font-medium mb-1">
           Starting date
         </label>
         <input
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+          className="block w-full bg-gray-800 text-gray-300 border border-gray-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
           type="datetime-local"
           value={started}
           onChange={(e) => setStarted(e.target.value)}
@@ -114,11 +114,11 @@ export default function NewTask({ role }) {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">
+        <label className="block text-gray-400 font-medium mb-1">
           Planned end date
         </label>
         <input
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+          className="block w-full bg-gray-800 text-gray-300 border border-gray-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
           type="date"
           value={toEnd}
           onChange={(e) => setToEnd(e.target.value)}
@@ -127,11 +127,11 @@ export default function NewTask({ role }) {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">
+        <label className="block text-gray-400 font-medium mb-1">
           Task priority
         </label>
         <select
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+          className="block w-full bg-gray-800 text-gray-300 border border-gray-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
           onChange={(e) => setPriority(e.target.value)}
           value={priority}
           required
@@ -147,11 +147,11 @@ export default function NewTask({ role }) {
 
       {role === "admin" && (
         <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2">
+          <label className="block text-gray-400 font-medium mb-1">
             Assign task to:
           </label>
           <select
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="block w-full bg-gray-800 text-gray-300 border border-gray-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
             onChange={(e) => setEmployeeId(e.target.value)}
             value={employeeId}
             required

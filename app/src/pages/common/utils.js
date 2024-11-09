@@ -1,17 +1,5 @@
 import axios from "axios";
-
-// Extract value from a specific cookie by name
-export const getCookieValue = (name) => {
-  const cookieValues = `; ${document.cookie}`;
-  const parts = cookieValues.split(`; ${name}=`);
-
-  if (parts.length === 2) {
-    // Extract the value and handle the case where additional cookie data follows
-    const value = parts.pop().split(";").shift().trim();
-    return value;
-  }
-  return null;
-};
+import Cookies from "js-cookie";
 
 //configures unauthenticated request
 export function configureRequest() {
@@ -30,7 +18,7 @@ export function configureRequest() {
 //configures auth request
 export function configureAuthenticatedRequest() {
   const url = import.meta.env.VITE_BASE_URL;
-  const csrf_access_token = getCookieValue("csrf_token");
+  const csrf_access_token = Cookies.get("csrf_token");
   axios.defaults.withCredentials = true;
   const axiosRequest = axios.create({
     baseURL: url,
