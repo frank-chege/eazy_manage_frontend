@@ -15,13 +15,13 @@ const PublicNavbar = () => {
         <Link className="mx-4 p-2 hover:text-gray-300" to={`/`}>
           Home
         </Link>
-        <Link className="mx-4 p-2 hover:text-gray-300" to={`/services`}>
+        <Link className="mx-4 p-2 hover:text-gray-300" to={`/`}>
           Services
         </Link>
-        <Link className="mx-4 p-2 hover:text-gray-300" to={`/about`}>
+        <Link className="mx-4 p-2 hover:text-gray-300" to={`/`}>
           About
         </Link>
-        <Link className="mx-4 p-2 hover:text-gray-300" to={`/contact`}>
+        <Link className="mx-4 p-2 hover:text-gray-300" to={`/`}>
           Contact us
         </Link>
         <Link className="mx-4 p-2 hover:text-gray-300" to={`/login`}>
